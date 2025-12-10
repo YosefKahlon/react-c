@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./CounterWithEffect.css";
 
 
 function CounterWithEffect() {
@@ -27,23 +28,25 @@ function CounterWithEffect() {
 
 
     return (
-        <div>
-            <p> Count: {count}</p>
-            <label>
+        <div className="counter-container">
+            <p className="counter-display">Count: {count}</p>
+            <label className="step-label">
                 Step:
-                <input type="number" value={step} onChange={e => setStep(Number(e.target.value)|| 0)}
-                style={{width: "4rem", marginLeft: "0.5rem"}}
+                <input 
+                    type="number" 
+                    value={step} 
+                    onChange={e => setStep(Number(e.target.value) || 0)}
+                    className="step-input"
                 />
             </label>
-            <div style={{marginTop: "0.5rem"}}>
-                <button onClick={()=> setCount((c) => c + step)}> Add Step</button>
-                <button onClick={()=> setRunning(r => !r)} style={{marginLeft: "0.5rem"}}>
+            <div className="button-group">
+                <button onClick={() => setCount(c => c + step)}>Add Step</button>
+                <button onClick={() => setRunning(r => !r)}>
                     {running ? "Stop" : "Start"}
                 </button>
-                <button onClick={()=> setCount(0)} style={{marginLeft: "0.5rem"}}> Reset</button>
+                <button onClick={() => setCount(0)}>Reset</button>
             </div>
-            
-            <button onClick={()=> setCount(c=>c+1)}> Add 1</button>
+            <button onClick={() => setCount(c => c + 1)}>Add 1</button>
         </div>
     );
 }
