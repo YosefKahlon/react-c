@@ -1,75 +1,115 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite + TanStack Query
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A products catalog application demonstrating TanStack Query for efficient data fetching and caching.
 
-Currently, two official plugins are available:
+## What We Built
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project implements a complete data-fetching solution using TanStack Query (React Query) with the DummyJSON API.
 
-## React Compiler
+**API Choice:** I chose DummyJSON.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- **List endpoint:** `/products`
+- **Detail endpoint:** `/products/:id`
+- **Categories endpoint:** `/products/categories`
 
-Note: This will impact Vite dev & build performances.
+### Features Implemented
 
-## Expanding the ESLint configuration
+✅ **Products List Page** - Home page displaying all products with category filtering  
+✅ **Product Detail Page** - Individual product view with full details  
+✅ **Dynamic Category Filter** - Fetched from API with smart caching  
+✅ **Loading & Error States** - Automatic state management  
+✅ **Dependent Queries** - Conditional data fetching based on URL parameters  
+✅ **Query Caching** - Instant loading from cache when switching between categories
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## How to Use
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Run Development Server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+The app will open at `http://localhost:5173`
+
+### Navigate the App
+
+1. **Home Page** (`/`) - Browse all products or filter by category
+2. **Click any product** - View detailed information
+3. **Switch categories** - Notice instant loading from cache on revisited categories
+4. **About Page** (`/about`) - Read complete implementation details
+
+### Features to Try
+
+- Filter products by category using the dropdown
+- Watch the 🔄 fetching indicator during background updates
+- Click on a product to see its details
+- Use browser back button - data loads instantly from cache
+- Switch between categories you've already visited - instant loading!
+
+## Technologies Used
+
+- **React 18** with TypeScript
+- **Vite** for fast development
+- **TanStack Query** for server state management
+- **React Router** for navigation
+- **DummyJSON API** for mock data
+
+## Key TanStack Query Features
+
+### Smart Caching
+
+Each query has a unique key that determines its cache entry:
+
+- `['products', '']` - All products
+- `['products', 'beauty']` - Beauty category
+- `['product', '1']` - Product with ID 1
+
+### Automatic State Management
+
+No manual `useState` or `useEffect` needed:
+
+```tsx
+const { data, isLoading, error, isFetching } = useQuery({
+  queryKey: ["products", category],
+  queryFn: fetchProducts,
+});
+```
+
+### Dependent Queries
+
+Only fetch when conditions are met:
+
+```tsx
+useQuery({
+  queryKey: ["product", id],
+  queryFn: () => fetchProductById(id),
+  enabled: !!id, // Only run when id exists
+});
+```
+
+## Project Structure
+
+```
+src/
+├── pages/
+│   ├── Products.tsx       # List page with filtering
+│   ├── Products.css       # Products list styles
+│   ├── ProductDetail.tsx  # Detail page with dependent query
+│   ├── ProductDetail.css  # Detail page styles
+│   └── About.tsx          # Project documentation
+├── App.tsx                # Routes configuration
+└── main.tsx               # QueryClient setup
+```
+
+## Learn More
+
+- [TanStack Query Documentation](https://tanstack.com/query/latest)
+- [React Documentation](https://react.dev)
+- [Vite Documentation](https://vite.dev)
+- [DummyJSON API](https://dummyjson.com)
