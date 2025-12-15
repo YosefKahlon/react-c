@@ -1,47 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { fetchProducts, fetchCategories } from '../api/productApi';
+import { Product, ProductsResponse, Category } from '../types/product';
 import './Products.css';
-
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-}
-
-interface ProductsResponse {
-  products: Product[];
-  total: number;
-  skip: number;
-  limit: number;
-}
-
-interface Category {
-  slug: string;
-  name: string;
-  url: string;
-}
-
-const fetchProducts = async (category?: string): Promise<ProductsResponse> => {
-  const url = category 
-    ? `https://dummyjson.com/products/category/${category}`
-    : 'https://dummyjson.com/products';
-  
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error('Failed to fetch products');
-  }
-  return response.json();
-};
-
-const fetchCategories = async (): Promise<Category[]> => {
-  const response = await fetch('https://dummyjson.com/products/categories');
-  if (!response.ok) {
-    throw new Error('Failed to fetch categories');
-  }
-  return response.json();
-};
 
 const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');

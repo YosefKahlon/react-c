@@ -1,26 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+import { fetchProductById } from '../api/productApi';
+import { Product } from '../types/product';
 import './ProductDetail.css';
-
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  category: string;
-  brand: string;
-  rating: number;
-  stock: number;
-  thumbnail: string;
-}
-
-const fetchProductById = async (id: string): Promise<Product> => {
-  const response = await fetch(`https://dummyjson.com/products/${id}`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch product details');
-  }
-  return response.json();
-};
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
