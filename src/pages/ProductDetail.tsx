@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { fetchProductById } from '../api/productApi';
-import { Product } from '../types/product';
 import './ProductDetail.css';
 
 const ProductDetail = () => {

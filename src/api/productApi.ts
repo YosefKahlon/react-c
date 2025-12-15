@@ -1,4 +1,4 @@
-import { Product, ProductsResponse, Category } from '../types/product';
+import type { Product, ProductsResponse, Category } from '../types/product';
 
 const API_BASE_URL = 'https://dummyjson.com';
 
