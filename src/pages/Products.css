@@ -1,0 +1,31 @@
+.products-container {
+  padding: 20px;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+}
+
+.filter-select {
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.fetching-indicator {
+  margin-left: 10px;
+  color: blue;
+}
+
+.products-list {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.product-item {
+  margin: 8px 0;
+}
+
+.product-category {
+  font-style: italic;
+  color: #666;
+}

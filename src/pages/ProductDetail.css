@@ -1,0 +1,13 @@
+.product-detail-container {
+  padding: 20px;
+}
+
+.product-thumbnail {
+  max-width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-info {
+  margin: 10px 0;
+}
