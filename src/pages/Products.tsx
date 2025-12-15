@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { fetchProducts, fetchCategories } from '../api/productApi';
-import type { Product, ProductsResponse, Category } from '../types/product';
 import './Products.css';
 
 const Products = () => {
