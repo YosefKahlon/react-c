@@ -34,3 +34,28 @@ export const fetchCategories = async (): Promise<Category[]> => {
     'Failed to fetch categories'
   );
 };
+
+/**
+ * Add or remove product from favorites (simulated mutation)
+ */
+export const addToFavorites = async (
+  productId: number, 
+  isAdding: boolean
+): Promise<{ success: boolean; productId: number; isAdding: boolean }> => {
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 500));
+  
+  // Return success response
+  return { success: true, productId, isAdding };
+};
+
+/**
+ * Simulate a broken API call for testing error toasts
+ */
+export const fetchBrokenProducts = async (): Promise<ProductsResponse> => {
+  const response = await fetch(`${API_BASE_URL}/products/broken-endpoint`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch products from broken endpoint');
+  }
+  return response.json();
+};

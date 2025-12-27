@@ -1,16 +1,26 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { fetchProductById } from '../api/productApi';
+import { useToast } from '../hooks/useToast';
+import { useEffect } from 'react';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const toast = useToast();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['product', id],
     queryFn: () => fetchProductById(id!),
     enabled: !!id, // Only run query when id exists
   });
+
+  // Show error toast when query fails
+  useEffect(() => {
+    if (error) {
+      toast.error(`Failed to load product details: ${error.message}`);
+    }
+  }, [error, toast]);
 
   if (!id) {
     return <div>No product ID provided</div>;
