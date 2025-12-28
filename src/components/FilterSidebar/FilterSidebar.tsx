@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { fetchCategories } from '../../api/productApi';
 import { useFilterContext } from '../../context/FilterContext';
 import './FilterSidebar.css';
@@ -9,6 +10,7 @@ import './FilterSidebar.css';
 const FilterSidebar = () => {
 
     const{sidebarOpen, closeSidebar, selectCategory, setSelectCategory} = useFilterContext();
+  const { t } = useTranslation('common');
 
 
     const { data: categories } = useQuery({
@@ -42,11 +44,11 @@ return (
       {/* Sidebar Panel */}
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <h2>Filters</h2>
+          <h2>{t('filters.title')}</h2>
           <button 
             className="close-button"
             onClick={closeSidebar}
-            aria-label="Close filters"
+            aria-label={t('filters.close')}
           >
             ✕
           </button>
@@ -55,14 +57,14 @@ return (
         <div className="sidebar-content">
           {/* Categories Section */}
           <div className="filter-section">
-            <h3>Categories</h3>
+            <h3>{t('filters.categories')}</h3>
             <ul className="category-list">
               <li>
                 <button
                   className={`category-button ${selectCategory === '' ? 'active' : ''}`}
                   onClick={() => handleCategoryClick('')}
                 >
-                  All Products
+                  {t('filters.all')}
                 </button>
               </li>
               {categories?.map((category) => (
@@ -83,7 +85,7 @@ return (
             className="clear-button"
             onClick={handleClearFilters}
           >
-            Clear All Filters
+            {t('filters.clear')}
           </button>
         </div>
       </aside>
