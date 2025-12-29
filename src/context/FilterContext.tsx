@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, type ReactNode } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
@@ -7,8 +8,6 @@ selectCategory: string;
 setSelectCategory: (category: string) => void;
 sidebarOpen: boolean;
 setSidebarOpen: (open: boolean) => void;
-openSidebar: () => void;
-closeSidebar: () => void;
 toggleSidebar: () => void;
 };
 
@@ -21,10 +20,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     const [selectCategory, setSelectCategory] = useLocalStorage<string>("selected-category", "");
     const [sidebarOpen, setSidebarOpen] = useLocalStorage<boolean>("sidebar-open", false);
 
-
-    //helpers to open/close/toggle sidebar
-    const openSidebar = () => setSidebarOpen(true);
-    const closeSidebar = () => setSidebarOpen(false);
+    //helper to toggle sidebar
     const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
     return (
@@ -35,8 +31,6 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
                 setSelectCategory,
                 sidebarOpen,
                 setSidebarOpen,
-                openSidebar,
-                closeSidebar,
                 toggleSidebar,
              }}
         >
