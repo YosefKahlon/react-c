@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { fetchProductById } from '../api/productApi';
 import { useToast } from '../hooks/useToast';
 import { useEffect } from 'react';
@@ -7,6 +8,7 @@ import './ProductDetail.css';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const { t } = useTranslation('products');
   const toast = useToast();
 
   const { data, isLoading, error } = useQuery({
@@ -18,36 +20,36 @@ const ProductDetail = () => {
   // Show error toast when query fails
   useEffect(() => {
     if (error) {
-      toast.error(`Failed to load product details: ${error.message}`);
+      toast.error(t('detailStatus.error', { message: error.message }));
     }
-  }, [error, toast]);
+  }, [error, t, toast]);
 
   if (!id) {
-    return <div>No product ID provided</div>;
+    return <div>{t('detailStatus.missingId')}</div>;
   }
 
   if (isLoading) {
-    return <div>Loading product details...</div>;
+    return <div>{t('detailStatus.loading')}</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>{t('detailStatus.error', { message: error.message })}</div>;
   }
 
   if (!data) {
-    return <div>Product not found</div>;
+    return <div>{t('detailStatus.notFound')}</div>;
   }
 
   return (
     <div className="product-detail-container">
       <h1>{data.title}</h1>
       <img src={data.thumbnail} alt={data.title} className="product-thumbnail" />
-      <p className="product-info"><strong>Price:</strong> ${data.price}</p>
-      <p className="product-info"><strong>Category:</strong> {data.category}</p>
-      <p className="product-info"><strong>Brand:</strong> {data.brand}</p>
-      <p className="product-info"><strong>Rating:</strong> {data.rating}/5</p>
-      <p className="product-info"><strong>Stock:</strong> {data.stock}</p>
-      <p className="product-info"><strong>Description:</strong> {data.description}</p>
+      <p className="product-info"><strong>{t('fields.price')}:</strong> ${data.price}</p>
+      <p className="product-info"><strong>{t('fields.category')}:</strong> {data.category}</p>
+      <p className="product-info"><strong>{t('fields.brand')}:</strong> {data.brand}</p>
+      <p className="product-info"><strong>{t('fields.rating')}:</strong> {data.rating}/5</p>
+      <p className="product-info"><strong>{t('fields.stock')}:</strong> {data.stock}</p>
+      <p className="product-info"><strong>{t('fields.description')}:</strong> {data.description}</p>
     </div>
   );
 };

@@ -1,6 +1,21 @@
 import { useNotificationStore } from '../../stores/notifications';
 import './ToastHost.css';
 
+const getNotificationIcon = (type: string): string => {
+  switch (type) {
+    case 'success':
+      return '✓';
+    case 'error':
+      return '✕';
+    case 'info':
+      return 'ℹ';
+    case 'warning':
+      return '⚠';
+    default:
+      return '';
+  }
+};
+
 const ToastHost = () => {
   const { notifications, removeNotification } = useNotificationStore();
 
@@ -13,10 +28,7 @@ const ToastHost = () => {
         >
           <div className="toast-content">
             <span className="toast-icon">
-              {notification.type === 'success' && '✓'}
-              {notification.type === 'error' && '✕'}
-              {notification.type === 'info' && 'ℹ'}
-              {notification.type === 'warning' && '⚠'}
+              {getNotificationIcon(notification.type)}
             </span>
             <p className="toast-message">{notification.message}</p>
           </div>

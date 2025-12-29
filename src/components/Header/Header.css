@@ -42,6 +42,11 @@
   margin-left: 2rem;
 }
 
+html[dir='rtl'] .nav-links {
+  margin-left: 0;
+  margin-right: 2rem;
+}
+
 .nav-links a {
   text-decoration: none;
   color: var(--text-primary);
@@ -61,6 +66,10 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+html[dir='rtl'] .header-actions {
+  flex-direction: row-reverse;
 }
 
 .filter-button {
