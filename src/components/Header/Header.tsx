@@ -32,7 +32,9 @@ const Header = () => {
         <nav className="nav-links">
           <Link to="/">{t('nav.products')}</Link>
           <Link to="/about">{t('nav.about')}</Link>
+          <Link to="/register">{t('register')}</Link>
         </nav>
+
 
         <div className="header-actions">
           {/* Theme Toggle */}
