@@ -1,51 +1,13 @@
 import "./Form.css";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "react-i18next";
 import { useFormCache } from "../../hooks/useFormCache";
-
-// Explicit type you had/like to keep
-type FormValues = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  phoneNumber?: string;
-  age?: number;
-  website?: string;         // empty string allowed by schema
-  bio?: string;
-  country?: string;
-  contactMethod?: "email" | "phone" | "none";
-  interests?: string[];
-  experienceLevel?: "beginner" | "intermediate" | "advanced";
-  subscribe?: boolean;
-  agreeToTerms?: boolean;
-};
-
-// Bind the schema to that type so TS checks they match
-const schema: z.ZodType<FormValues> = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  confirmPassword: z.string(),
-  phoneNumber: z.string().optional(),
-  age: z.coerce.number().int().min(0).max(120).optional(),
-  website: z.union([z.string().url("Invalid URL"), z.literal("")]).optional(),
-  bio: z.string().min(10, "At least 10 characters").max(300).optional(),
-  country: z.string().optional(),
-  contactMethod: z.enum(["email", "phone", "none"]).optional(),
-  interests: z.array(z.string()).optional(),
-  experienceLevel: z.enum(["beginner", "intermediate", "advanced"]).optional(),
-  subscribe: z.boolean().optional(),
-  agreeToTerms: z.boolean().optional(),
-}).refine((v) => v.password === v.confirmPassword, {
-  path: ["confirmPassword"],
-  message: "Passwords must match",
-});
+import { formSchema } from "./schema";
+import type { FormValues } from "./types";
 
 export default function Form({ onSuccess }: { onSuccess: () => void }) {
+  const { t } = useTranslation("form");
   const {
     register,
     handleSubmit,
@@ -54,7 +16,7 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
     setValue,
   } = useForm<FormValues>({
     mode: "onBlur",
-    resolver: zodResolver(schema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -74,29 +36,26 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
     },
   });
 
-  // Cache non-sensitive fields
   useFormCache(watch, setValue);
 
   const onSubmit = handleSubmit(async (data) => {
     await new Promise((r) => setTimeout(r, 800));
     console.log("Submitted:", data);
     localStorage.setItem("registrationComplete", "true");
-    // Clear the cache after successful submission
     localStorage.removeItem("registration-form-cache");
     onSuccess();
   });
 
   return (
     <div className="form-shell">
-      <h1>Registration</h1>
+      <h1>{t("title")}</h1>
 
       <form onSubmit={onSubmit} noValidate>
-        {/* First Name */}
         <div className="field">
           <label htmlFor="firstName">
-            First Name
+            {t("firstName.label")}
             <span className="required-asterisk" aria-hidden="true">*</span>
-            <span className="sr-only"> required</span>
+            <span className="sr-only"> {t("required")}</span>
           </label>
           <input
             id="firstName"
@@ -108,16 +67,15 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
             {...register("firstName")}
           />
           {errors.firstName && (
-            <p role="alert" id="firstName-error">{errors.firstName.message}</p>
+            <p role="alert" id="firstName-error">{t(`firstName.${errors.firstName.message}`)}</p>
           )}
         </div>
 
-        {/* Last Name */}
         <div className="field">
           <label htmlFor="lastName">
-            Last Name
+            {t("lastName.label")}
             <span className="required-asterisk" aria-hidden="true">*</span>
-            <span className="sr-only"> required</span>
+            <span className="sr-only"> {t("required")}</span>
           </label>
           <input
             id="lastName"
@@ -129,21 +87,20 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
             {...register("lastName")}
           />
           {errors.lastName && (
-            <p role="alert" id="lastName-error">{errors.lastName.message}</p>
+            <p role="alert" id="lastName-error">{t(`lastName.${errors.lastName.message}`)}</p>
           )}
         </div>
 
-        {/* Email */}
         <div className="field">
           <label htmlFor="email">
-            Email
+            {t("email.label")}
             <span className="required-asterisk" aria-hidden="true">*</span>
-            <span className="sr-only"> required</span>
+            <span className="sr-only"> {t("required")}</span>
           </label>
           <input
             id="email"
             type="email"
-            placeholder="name@example.com"
+            placeholder={t("email.placeholder")}
             autoComplete="email"
             inputMode="email"
             required
@@ -153,16 +110,15 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
             {...register("email")}
           />
           {errors.email && (
-            <p role="alert" id="email-error">{errors.email.message}</p>
+            <p role="alert" id="email-error">{t(`email.${errors.email.message}`)}</p>
           )}
         </div>
 
-        {/* Password */}
         <div className="field">
           <label htmlFor="password">
-            Password
+            {t("password.label")}
             <span className="required-asterisk" aria-hidden="true">*</span>
-            <span className="sr-only"> required</span>
+            <span className="sr-only"> {t("required")}</span>
           </label>
           <input
             id="password"
@@ -175,16 +131,15 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
             {...register("password")}
           />
           {errors.password && (
-            <p role="alert" id="password-error">{errors.password.message}</p>
+            <p role="alert" id="password-error">{t(`password.${errors.password.message}`)}</p>
           )}
         </div>
 
-        {/* Confirm Password */}
         <div className="field">
           <label htmlFor="confirmPassword">
-            Confirm Password
+            {t("confirmPassword.label")}
             <span className="required-asterisk" aria-hidden="true">*</span>
-            <span className="sr-only"> required</span>
+            <span className="sr-only"> {t("required")}</span>
           </label>
           <input
             id="confirmPassword"
@@ -197,17 +152,16 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
             {...register("confirmPassword")}
           />
           {errors.confirmPassword && (
-            <p role="alert" id="confirmPassword-error">{errors.confirmPassword.message}</p>
+            <p role="alert" id="confirmPassword-error">{t(`confirmPassword.${errors.confirmPassword.message}`)}</p>
           )}
         </div>
 
-        {/* Phone Number */}
         <div className="field">
-          <label htmlFor="phoneNumber">Phone Number</label>
+          <label htmlFor="phoneNumber">{t("phoneNumber.label")}</label>
           <input
             id="phoneNumber"
             type="tel"
-            placeholder="+1 555 123 4567"
+            placeholder={t("phoneNumber.placeholder")}
             autoComplete="tel"
             aria-invalid={!!errors.phoneNumber || undefined}
             aria-describedby={errors.phoneNumber ? "phoneNumber-error" : undefined}
@@ -218,10 +172,9 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
           )}
         </div>
 
-        {/* Age (range slider) */}
         <div className="field">
           <label htmlFor="age">
-            Age: <strong>{watch("age") ?? 0}</strong>
+            {t("age.label")}: <strong>{watch("age") ?? 0}</strong>
           </label>
           <input
             id="age"
@@ -238,153 +191,145 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
           )}
         </div>
 
-        {/* Website */}
         <div className="field">
-          <label htmlFor="website">Website</label>
+          <label htmlFor="website">{t("website.label")}</label>
           <input
             id="website"
             type="url"
-            placeholder="https://example.com"
+            placeholder={t("website.placeholder")}
             aria-invalid={!!errors.website || undefined}
             aria-describedby={errors.website ? "website-error" : undefined}
             {...register("website")}
           />
           {errors.website && (
-            <p role="alert" id="website-error">{errors.website.message as string}</p>
+            <p role="alert" id="website-error">{t(`website.${errors.website.message}`)}</p>
           )}
         </div>
 
-        {/* Bio (with helper + counter) */}
         <div className="field">
-          <label htmlFor="bio">Bio</label>
+          <label htmlFor="bio">{t("bio.label")}</label>
           <textarea
             id="bio"
             rows={4}
             maxLength={300}
-            placeholder="Tell us a bit about yourself..."
+            placeholder={t("bio.placeholder")}
             aria-invalid={!!errors.bio || undefined}
             aria-describedby={`${errors.bio ? "bio-error " : ""}bio-help bio-count`}
             {...register("bio")}
           />
           {errors.bio && (
-            <p role="alert" id="bio-error">{errors.bio.message as string}</p>
+            <p role="alert" id="bio-error">{t(`bio.${errors.bio.message}`)}</p>
           )}
-          <small id="bio-help" className="help">10–300 characters.</small>
+          <small id="bio-help" className="help">{t("bio.help")}</small>
           <div id="bio-count" className="muted" aria-live="polite">
             {(watch("bio")?.length ?? 0)}/300
           </div>
         </div>
 
-        {/* Country */}
         <div className="field">
-          <label htmlFor="country">Country</label>
+          <label htmlFor="country">{t("country.label")}</label>
           <select
             id="country"
             aria-invalid={!!errors.country || undefined}
             aria-describedby={errors.country ? "country-error" : undefined}
             {...register("country")}
           >
-            <option value="">Select…</option>
-            <option value="us">United States</option>
-            <option value="il">Israel</option>
-            <option value="uk">United Kingdom</option>
-            <option value="ca">Canada</option>
-            <option value="de">Germany</option>
+            <option value="">{t("country.options.select")}</option>
+            <option value="us">{t("country.options.us")}</option>
+            <option value="il">{t("country.options.il")}</option>
+            <option value="uk">{t("country.options.uk")}</option>
+            <option value="ca">{t("country.options.ca")}</option>
+            <option value="de">{t("country.options.de")}</option>
           </select>
           {errors.country && (
             <p role="alert" id="country-error">{errors.country.message as string}</p>
           )}
         </div>
 
-        {/* Preferred contact (radio) */}
         <fieldset className="field">
-          <legend>Preferred contact</legend>
+          <legend>{t("contactMethod.legend")}</legend>
           <label className="custom-radio">
             <input type="radio" value="email" {...register("contactMethod")} />
             <span className="custom-radio-indicator" />
-            <span>Email</span>
+            <span>{t("contactMethod.email")}</span>
           </label>
           <label className="custom-radio">
             <input type="radio" value="phone" {...register("contactMethod")} />
             <span className="custom-radio-indicator" />
-            <span>Phone</span>
+            <span>{t("contactMethod.phone")}</span>
           </label>
           <label className="custom-radio">
             <input type="radio" value="none" {...register("contactMethod")} />
             <span className="custom-radio-indicator" />
-            <span>None</span>
+            <span>{t("contactMethod.none")}</span>
           </label>
           {errors.contactMethod && (
             <p role="alert">{errors.contactMethod.message as string}</p>
           )}
         </fieldset>
 
-        {/* Interests (checkbox group) */}
         <fieldset className="field">
-          <legend>Interests</legend>
+          <legend>{t("interests.legend")}</legend>
           <label className="custom-checkbox">
             <input type="checkbox" value="frontend" {...register("interests")} />
             <span className="custom-checkbox-indicator" />
-            <span>Frontend</span>
+            <span>{t("interests.frontend")}</span>
           </label>
           <label className="custom-checkbox">
             <input type="checkbox" value="backend" {...register("interests")} />
             <span className="custom-checkbox-indicator" />
-            <span>Backend</span>
+            <span>{t("interests.backend")}</span>
           </label>
           <label className="custom-checkbox">
             <input type="checkbox" value="devops" {...register("interests")} />
             <span className="custom-checkbox-indicator" />
-            <span>DevOps</span>
+            <span>{t("interests.devops")}</span>
           </label>
           <label className="custom-checkbox">
             <input type="checkbox" value="uiux" {...register("interests")} />
             <span className="custom-checkbox-indicator" />
-            <span>UI/UX</span>
+            <span>{t("interests.uiux")}</span>
           </label>
           {errors.interests && (
             <p role="alert">{errors.interests.message as string}</p>
           )}
         </fieldset>
 
-        {/* Experience level (radio) */}
         <fieldset className="field">
-          <legend>Experience level</legend>
+          <legend>{t("experienceLevel.legend")}</legend>
           <label className="custom-radio">
             <input type="radio" value="beginner" {...register("experienceLevel")} />
             <span className="custom-radio-indicator" />
-            <span>Beginner</span>
+            <span>{t("experienceLevel.beginner")}</span>
           </label>
           <label className="custom-radio">
             <input type="radio" value="intermediate" {...register("experienceLevel")} />
             <span className="custom-radio-indicator" />
-            <span>Intermediate</span>
+            <span>{t("experienceLevel.intermediate")}</span>
           </label>
           <label className="custom-radio">
             <input type="radio" value="advanced" {...register("experienceLevel")} />
             <span className="custom-radio-indicator" />
-            <span>Advanced</span>
+            <span>{t("experienceLevel.advanced")}</span>
           </label>
           {errors.experienceLevel && (
             <p role="alert">{errors.experienceLevel.message as string}</p>
           )}
         </fieldset>
 
-        {/* Subscribe */}
         <div className="field">
           <label className="custom-checkbox">
             <input type="checkbox" {...register("subscribe")} />
             <span className="custom-checkbox-indicator" />
-            <span>Subscribe to newsletter</span>
+            <span>{t("subscribe")}</span>
           </label>
         </div>
 
-        {/* Agree to terms */}
         <div className="field">
           <label className="custom-checkbox">
             <input type="checkbox" {...register("agreeToTerms")} />
             <span className="custom-checkbox-indicator" />
-            <span>I agree to the terms</span>
+            <span>{t("agreeToTerms")}</span>
           </label>
           {errors.agreeToTerms && (
             <p role="alert">{errors.agreeToTerms.message as string}</p>
@@ -392,7 +337,7 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
         </div>
 
         <button type="submit" disabled={!isValid || isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Register"}
+          {isSubmitting ? t("submitting") : t("submit")}
         </button>
       </form>
     </div>
