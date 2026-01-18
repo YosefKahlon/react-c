@@ -43,6 +43,12 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo app test placeholder"
+      }
     }
   },
   "tags": ["type:app"]
