@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "ci:affected": "nx affected -t lint,test,build --base=origin/main --head=HEAD",
     "preview": "vite preview",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -28,6 +29,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@nx/eslint": "^22.3.3",
+    "@nx/eslint-plugin": "^22.3.3",
+    "@nx/vite": "^22.3.3",
     "@playwright/test": "^1.48.2",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
@@ -38,11 +42,13 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "nx": "22.3.3",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --max-warnings=1"
-  }
+  },
+  "nx": {}
 }

@@ -1,180 +1,63 @@
-# React + TypeScript + Vite + TanStack Query
+# React Catalog (Nx + Vite)
 
-A products catalog application demonstrating TanStack Query for efficient data fetching and caching, with i18n, RTL support, and PrimeReact components.
+Nx + Vite workspace for a TanStack Query product catalog with i18n, RTL, and PrimeReact UI.
 
-## Step 0 - Base Project
+## How to Run
 
-Starting from commit 8047bf5. API used: [DummyJSON](https://dummyjson.com).
+- Serve: `nx serve my-app`
+- Build: `nx build my-app`
+- Lint: `nx lint my-app`
+- Test: `nx test my-app` (placeholder) | e2e: `npm run test:e2e`
 
-**Features:** Products list with category filtering, detail page, TanStack Query caching, loading/error states, dependent queries.
+## Workspace Structure
 
-## What We Built
+- apps/my-app: Vite + React storefront shell.
+- libs/ui: Shared UI widgets (toasts, layout); build/test placeholders for affected demo.
+- libs/hooks: Shared hooks (form cache, storage, toast).
+- libs/i18n: Translations and i18next setup.
 
-This project implements a complete data-fetching solution using TanStack Query (React Query) with the DummyJSON API.
+## Architecture Rules (module boundaries)
 
-**API Choice:** I chose DummyJSON.
+- type:app -> only depend on type:ui, type:hooks, type:i18n.
+- type:ui -> only depend on type:hooks, type:i18n.
+- type:hooks -> only depend on type:ui, type:i18n.
+- type:i18n -> no downstream deps.
 
-- **List endpoint:** `/products`
-- **Detail endpoint:** `/products/:id`
-- **Categories endpoint:** `/products/categories`
+## Affected Demo (Part A4)
 
-### Features Implemented
-
-✅ **Products List Page** - Home page displaying all products with category filtering  
-✅ **Product Detail Page** - Individual product view with full details  
-✅ **Dynamic Category Filter** - Fetched from API with smart caching  
-✅ **Loading & Error States** - Automatic state management  
-✅ **Dependent Queries** - Conditional data fetching based on URL parameters  
-✅ **Query Caching** - Instant loading from cache when switching between categories
-
-## How to Use
-
-### Installation
-
-```bash
-npm install
-```
-
-### Run Development Server
-
-```bash
-npm run dev
-```
-
-The app will open at `http://localhost:5173`
-
-### Navigate the App
-
-1. **Home Page** (`/`) - Browse all products or filter by category
-2. **Click any product** - View detailed information
-3. **Switch categories** - Notice instant loading from cache on revisited categories
-4. **About Page** (`/about`) - Read complete implementation details
-
-### Features to Try
-
-- Filter products by category using the dropdown
-- Watch the 🔄 fetching indicator during background updates
-- Click on a product to see its details
-- Use browser back button - data loads instantly from cache
-- Switch between categories you've already visited - instant loading!
-
-## Technologies Used
-
-- **React 18** with TypeScript
-- **Vite** for fast development
-- **TanStack Query** for server state management
-- **React Router** for navigation
-- **DummyJSON API** for mock data
-
-## Step 1 - i18n Setup
-
-Installed i18next + react-i18next with namespaces and two locales.
-
-**Deliverables:**
-
-- Locales: English (en), Hebrew (he)
-- Namespaces: `common` (header, buttons, generic UI), `products` (catalog/list/detail strings)
-
-## Step 2 - Use i18n for Real
-
-Translated UI strings across header, product pages with interpolation, pluralization, and Trans component.
-
-**Deliverables:**
-
-- Example keys implemented in the UI:
-  - Interpolation: `products:counts.showing` (products page count line)
-  - Pluralization: `products:productCount` (total products line on products page)
-  - Trans: `products:aboutLink` (products page subtitle linking to About)
-
-## Step 3 - Language Switcher + Persistence
-
-Added language selector dropdown in the header; persists in localStorage and restores on page reload.
-
-**Deliverables:**
-
-- Language selector in header updates UI immediately
-- Selected language persists in localStorage under key `appLanguage` (default: English)
-- Page reload restores the saved language
-
-## Step 4 - RTL Mode
-
-Applied RTL layout fixes for Hebrew (he) locale.
-
-**Deliverables:**
-
-- RTL issue → fix: Sidebar previously slid from left; now slides from right with mirrored shadow in RTL
-- RTL issue → fix: Product list padding and favorite button spacing now swap sides in RTL
-
-## Step 7 - PrimeReact Setup + DataTable
-
-Replaced product list with PrimeReact DataTable with required columns, sorting, and pagination.
-
-**Deliverables:**
-
-- DataTable columns: Title, Price, Category, Image, Actions
-- Features enabled: sortable columns (Title, Price, Category) and pagination (5/10/20 rows)
-
-## Step 8 - PrimeReact Theme Switch + Persistence
-
-Added PrimeReact theme switcher in header with light and dark themes persisted in localStorage.
-
-**Deliverables:**
-
-- Themes: `lara-light-blue` (default) and `lara-dark-blue`
-- localStorage key: `theme-storage` (shared with app theme)
-- Theme selector in header applies theme immediately and persists across page reloads
-
-## Key TanStack Query Features
-
-### Smart Caching
-
-Each query has a unique key that determines its cache entry:
-
-- `['products', '']` - All products
-- `['products', 'beauty']` - Beauty category
-- `['product', '1']` - Product with ID 1
-
-### Automatic State Management
-
-No manual `useState` or `useEffect` needed:
-
-```tsx
-const { data, isLoading, error, isFetching } = useQuery({
-  queryKey: ["products", category],
-  queryFn: fetchProducts,
-});
-```
-
-### Dependent Queries
-
-Only fetch when conditions are met:
-
-```tsx
-useQuery({
-  queryKey: ["product", id],
-  queryFn: () => fetchProductById(id),
-  enabled: !!id, // Only run when id exists
-});
-```
-
-## Project Structure
+Change: tweak toast text weight in [libs/ui/src/ToastHost.css](libs/ui/src/ToastHost.css).
 
 ```
-src/
-├── pages/
-│   ├── Products.tsx       # List page with filtering
-│   ├── Products.css       # Products list styles
-│   ├── ProductDetail.tsx  # Detail page with dependent query
-│   ├── ProductDetail.css  # Detail page styles
-│   └── About.tsx          # Project documentation
-├── App.tsx                # Routes configuration
-└── main.tsx               # QueryClient setup
+npx nx affected --target=lint --target=build --target=test --files libs/ui/src/ToastHost.css --output-style=static
+
+ NX   Running targets lint, build, test for project ui:
+
+- ui
+
+> nx run ui:build
+> echo ui build placeholder
+ui build placeholder
+
+> nx run ui:test
+> echo ui test placeholder
+ui test placeholder
+
+> nx run ui:lint
+Linting "ui"...
+✔ All files pass linting
+
+ NX   Successfully ran targets lint, build, test for project ui
 ```
 
-## Learn More
+```
+npx nx show projects --affected --files libs/ui/src/ToastHost.css
+ui
+```
 
-- [TanStack Query Documentation](https://tanstack.com/query/latest)
-- [React Documentation](https://react.dev)
-- [Vite Documentation](https://vite.dev)
-- [DummyJSON API](https://dummyjson.com)
-![alt text](image.png)
+## Stretch Task (S3 - CI-friendly)
+
+- CI verification: `npm run ci:affected` (runs `nx affected -t lint,test,build --base=origin/main --head=HEAD`).
+
+## Repo Link
+
+- https://github.com/YosefKahlon/react-c

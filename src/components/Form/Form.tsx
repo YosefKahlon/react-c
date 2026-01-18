@@ -2,9 +2,8 @@ import "./Form.css";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
-import { useFormCache } from "../../hooks/useFormCache";
+import { useFormCache } from "@my-app/hooks";
 import { formSchema } from "./schema";
-import type { FormValues } from "./types";
 
 export default function Form({ onSuccess }: { onSuccess: () => void }) {
   const { t } = useTranslation("form");
@@ -14,9 +13,9 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
     formState: { errors, isValid, isSubmitting },
     watch,
     setValue,
-  } = useForm<FormValues>({
+  } = useForm({
     mode: "onBlur",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema as any) as any,
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -34,11 +33,11 @@ export default function Form({ onSuccess }: { onSuccess: () => void }) {
       subscribe: false,
       agreeToTerms: false,
     },
-  });
+  }) as any;
 
   useFormCache(watch, setValue);
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: any) => {
     await new Promise((r) => setTimeout(r, 800));
     console.log("Submitted:", data);
     localStorage.setItem("registrationComplete", "true");
