@@ -16,6 +16,7 @@ export default defineConfig({
       '@my-app/ui': path.resolve(__dirname, './libs/ui/src'),
       '@my-app/hooks': path.resolve(__dirname, './libs/hooks/src'),
       '@my-app/i18n': path.resolve(__dirname, './libs/i18n/src'),
+      '@my-app/app': path.resolve(__dirname, './src'),
     },
   },
 })
