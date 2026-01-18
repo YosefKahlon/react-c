@@ -29,6 +29,102 @@ const resources = {
         close: 'Close'
       }
     },
+    form: {
+      title: 'Registration',
+      firstName: {
+        label: 'First Name',
+        error: {
+          minLength: 'First name must be at least 2 characters'
+        }
+      },
+      lastName: {
+        label: 'Last Name',
+        error: {
+          minLength: 'Last name must be at least 2 characters'
+        }
+      },
+      email: {
+        label: 'Email',
+        placeholder: 'name@example.com',
+        error: {
+          invalid: 'Invalid email address'
+        }
+      },
+      password: {
+        label: 'Password',
+        error: {
+          minLength: 'Password must be at least 6 characters'
+        }
+      },
+      confirmPassword: {
+        label: 'Confirm Password',
+        error: {
+          minLength: 'Password must be at least 6 characters'
+        }
+      },
+      phoneNumber: {
+        label: 'Phone Number',
+        placeholder: '+1 555 123 4567'
+      },
+      age: {
+        label: 'Age'
+      },
+      website: {
+        label: 'Website',
+        placeholder: 'https://example.com',
+        error: {
+          invalid: 'Invalid URL'
+        }
+      },
+      bio: {
+        label: 'Bio',
+        placeholder: 'Tell us a bit about yourself...',
+        help: '10–300 characters.',
+        error: {
+          minLength: 'At least 10 characters'
+        }
+      },
+      country: {
+        label: 'Country',
+        options: {
+          select: 'Select…',
+          us: 'United States',
+          il: 'Israel',
+          uk: 'United Kingdom',
+          ca: 'Canada',
+          de: 'Germany'
+        }
+      },
+      contactMethod: {
+        legend: 'Preferred contact',
+        email: 'Email',
+        phone: 'Phone',
+        none: 'None'
+      },
+      interests: {
+        legend: 'Interests',
+        frontend: 'Frontend',
+        backend: 'Backend',
+        devops: 'DevOps',
+        uiux: 'UI/UX'
+      },
+      experienceLevel: {
+        legend: 'Experience level',
+        beginner: 'Beginner',
+        intermediate: 'Intermediate',
+        advanced: 'Advanced'
+      },
+      subscribe: 'Subscribe to newsletter',
+      agreeToTerms: 'I agree to the terms',
+      passwords: {
+        error: {
+          mismatch: 'Passwords must match'
+        }
+      },
+      required: 'required',
+      submit: 'Register',
+      submitting: 'Submitting...'
+    },
     products: {
       title: 'Products',
       subtitle: 'Browse the catalog and view details',
@@ -99,6 +195,102 @@ const resources = {
         clear: 'נקה את כל הסינונים',
         close: 'סגור'
       }
+    },
+    form: {
+      title: 'הרשמה',
+      firstName: {
+        label: 'שם פרטי',
+        error: {
+          minLength: 'שם פרטי חייב להיות לפחות 2 תווים'
+        }
+      },
+      lastName: {
+        label: 'שם משפחה',
+        error: {
+          minLength: 'שם משפחה חייב להיות לפחות 2 תווים'
+        }
+      },
+      email: {
+        label: 'דוא״ל',
+        placeholder: 'name@example.com',
+        error: {
+          invalid: 'כתובת דוא״ל לא חוקית'
+        }
+      },
+      password: {
+        label: 'סיסמה',
+        error: {
+          minLength: 'סיסמה חייבת להיות לפחות 6 תווים'
+        }
+      },
+      confirmPassword: {
+        label: 'אישור סיסמה',
+        error: {
+          minLength: 'סיסמה חייבת להיות לפחות 6 תווים'
+        }
+      },
+      phoneNumber: {
+        label: 'מספר טלפון',
+        placeholder: '+1 555 123 4567'
+      },
+      age: {
+        label: 'גיל'
+      },
+      website: {
+        label: 'אתר',
+        placeholder: 'https://example.com',
+        error: {
+          invalid: 'URL לא חוקי'
+        }
+      },
+      bio: {
+        label: 'קצת עלי',
+        placeholder: 'ספרו לנו קצת עליכם...',
+        help: '10–300 תווים.',
+        error: {
+          minLength: 'לפחות 10 תווים'
+        }
+      },
+      country: {
+        label: 'מדינה',
+        options: {
+          select: 'בחרו…',
+          us: 'ארצות הברית',
+          il: 'ישראל',
+          uk: 'בריטניה',
+          ca: 'קנדה',
+          de: 'גרמניה'
+        }
+      },
+      contactMethod: {
+        legend: 'דרך התקשרות מועדפת',
+        email: 'דוא״ל',
+        phone: 'טלפון',
+        none: 'אף אחת'
+      },
+      interests: {
+        legend: 'תחומי עניין',
+        frontend: 'Frontend',
+        backend: 'Backend',
+        devops: 'DevOps',
+        uiux: 'UI/UX'
+      },
+      experienceLevel: {
+        legend: 'רמת ניסיון',
+        beginner: 'מתחילים',
+        intermediate: 'בינוני',
+        advanced: 'מתקדם'
+      },
+      subscribe: 'הרשמו לעדכונים',
+      agreeToTerms: 'אני מסכים/ה לתנאים',
+      passwords: {
+        error: {
+          mismatch: 'הסיסמאות חייבות להיות זהות'
+        }
+      },
+      required: 'חובה',
+      submit: 'הרשם',
+      submitting: 'מעביר...'
     },
     products: {
       title: 'מוצרים',

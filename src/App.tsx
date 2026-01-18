@@ -1,6 +1,6 @@
 import './App.css'
-import { Routes, Route } from 'react-router-dom'
-import { useEffect } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect, type JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import Header from './components/Header/Header'
 import FilterSidebar from './components/FilterSidebar/FilterSidebar'
@@ -12,13 +12,18 @@ import ProductDetail from './pages/ProductDetail'
 import { FilterProvider } from './context/FilterContext'
 import { useThemeStore } from './stores/theme'
 import { applyPrimeTheme } from './utils/primeTheme'
+import FormPage from './pages/Registration';
 
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const isRegistered = localStorage.getItem('registrationComplete') === 'true';
+  return isRegistered ? children : <Navigate to="/register" replace />;
+};
 
 function App() {
   const theme = useThemeStore((state) => state.theme);
   const primeTheme = useThemeStore((state) => state.primeTheme);
   const { i18n } = useTranslation();
-
+  
   // Apply theme to document element
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -41,9 +46,10 @@ function App() {
       <FilterSidebar />
       <ToastHost />
       <Routes>
-        <Route path="/" element={<Products />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/register" element={<FormPage />} />
+        <Route path="/" element={<ProtectedRoute><Products /></ProtectedRoute>} />
+        <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
+        <Route path="/products/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} />
       </Routes>
     </FilterProvider>
   )
