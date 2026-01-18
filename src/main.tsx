@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './i18n'
+import '@my-app/i18n'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 import './index.css'

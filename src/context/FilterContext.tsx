@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, type ReactNode } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useLocalStorage } from "@my-app/hooks";
 
 //Declares what we'll store: current category and sidebar open/close.
 type FilterContextValue = {
@@ -9,6 +9,7 @@ setSelectCategory: (category: string) => void;
 sidebarOpen: boolean;
 setSidebarOpen: (open: boolean) => void;
 toggleSidebar: () => void;
+closeSidebar: () => void;
 };
 
 //Defines the "shape" of the shared data and creates the Context object.
@@ -22,6 +23,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
 
     //helper to toggle sidebar
     const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+    const closeSidebar = () => setSidebarOpen(false);
 
     return (
         //Makes these values/functions available to all child components.
@@ -32,6 +34,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
                 sidebarOpen,
                 setSidebarOpen,
                 toggleSidebar,
+                closeSidebar,
              }}
         >
             {children}

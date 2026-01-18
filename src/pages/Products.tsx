@@ -5,8 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { fetchProducts, addToFavorites } from '../api/productApi';
 import { useFilterContext } from '../context/FilterContext';
-import { useToast } from '../hooks/useToast';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useToast, useLocalStorage } from '@my-app/hooks';
 import { useEffect, useMemo } from 'react';
 import './Products.css';
 

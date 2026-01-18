@@ -1,10 +1,10 @@
-import { ChangeEvent } from 'react';
+import type { ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFilterContext } from '../../context/FilterContext';
-import ThemeToggle from '../ThemeToggle/ThemeToggle';
+import { ThemeToggle } from '@my-app/ui';
 import './Header.css';
-import { LANGUAGE_STORAGE_KEY } from '../../i18n';
+import { LANGUAGE_STORAGE_KEY } from '@my-app/i18n';
 
 const Header = () => {
   const { toggleSidebar } = useFilterContext();
